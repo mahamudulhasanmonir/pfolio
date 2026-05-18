@@ -1,0 +1,166 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const featuredProjects = (await getCollection('projects', ({ data }) => data.featured)).sort((a, b) => a.data.order - b.data.order).slice(0, 3);
+const recentPosts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()).slice(0, 3);
+
+const skills = [
+  { name: 'TypeScript', icon: '⚡' },
+  { name: 'React', icon: '⚛️' },
+  { name: 'Astro', icon: '🚀' },
+  { name: 'Node.js', icon: '🟢' },
+  { name: 'Tailwind', icon: '🎨' },
+  { name: 'PostgreSQL', icon: '🐘' },
+  { name: 'Docker', icon: '🐳' },
+  { name: 'AWS', icon: '☁️' },
+];
+---
+
+<Layout title="Monir.dev — Full Stack Developer">
+  <!-- Hero -->
+  <section class="min-h-[90vh] flex items-center justify-center px-4 sm:px-6">
+    <div class="max-w-4xl mx-auto text-center">
+      <!-- Avatar -->
+      <div class="animate-float mx-auto mb-8 w-24 h-24 rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-cyan-500 p-0.5 shadow-2xl shadow-indigo-500/30">
+        <div class="w-full h-full rounded-2xl bg-[var(--bg)] flex items-center justify-center text-4xl">
+          👨‍💻
+        </div>
+      </div>
+
+      <div class="animate-on-scroll">
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm text-[var(--text-muted)] mb-6">
+          <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+          Available for work
+        </div>
+
+        <h1 class="text-5xl sm:text-7xl font-extrabold mb-6 leading-tight">
+          Hi, I'm <span class="gradient-text">Monir</span>
+        </h1>
+
+        <p class="text-xl sm:text-2xl text-[var(--text-muted)] mb-4 font-light">
+          Full Stack Developer & Open Source Enthusiast
+        </p>
+
+        <p class="text-base text-[var(--text-muted)] max-w-2xl mx-auto mb-10 leading-relaxed">
+          I build fast, accessible, and beautiful web experiences. Passionate about clean code, modern tooling, and sharing knowledge through writing.
+        </p>
+
+        <div class="flex flex-wrap items-center justify-center gap-4">
+          <a href="/projects" class="btn-primary">
+            View Projects
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </a>
+          <a href="/blog" class="btn-ghost">Read Blog</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="py-20 px-4 sm:px-6">
+    <div class="max-w-6xl mx-auto">
+      <div class="animate-on-scroll text-center mb-12">
+        <h2 class="text-3xl font-bold mb-3">Tech Stack</h2>
+        <p class="text-[var(--text-muted)]">Tools and technologies I work with daily</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        {skills.map((skill, i) => (
+          <div
+            class="animate-on-scroll card text-center cursor-default"
+            style={`animation-delay: ${i * 50}ms`}
+          >
+            <div class="text-3xl mb-2">{skill.icon}</div>
+            <div class="font-semibold text-sm">{skill.name}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  {featuredProjects.length > 0 && (
+    <section class="py-20 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="animate-on-scroll flex items-end justify-between mb-12">
+          <div>
+            <h2 class="text-3xl font-bold mb-2">Featured Projects</h2>
+            <p class="text-[var(--text-muted)]">Things I've built recently</p>
+          </div>
+          <a href="/projects" class="text-[var(--accent)] text-sm font-medium hover:underline">View all →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredProjects.map((project) => (
+            <article class="animate-on-scroll card group">
+              <div class="flex items-start justify-between mb-4">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg">
+                  🛠️
+                </div>
+                <div class="flex gap-2">
+                  {project.data.github && (
+                    <a href={project.data.github} target="_blank" rel="noopener" class="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+                      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                    </a>
+                  )}
+                  {project.data.demo && (
+                    <a href={project.data.demo} target="_blank" rel="noopener" class="text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+              <h3 class="font-bold text-lg mb-2 group-hover:text-[var(--accent)] transition-colors">{project.data.title}</h3>
+              <p class="text-[var(--text-muted)] text-sm mb-4 leading-relaxed">{project.data.description}</p>
+              <div class="flex flex-wrap gap-2">
+                {project.data.tags.slice(0, 3).map(tag => <span class="tag">{tag}</span>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Recent Blog Posts -->
+  {recentPosts.length > 0 && (
+    <section class="py-20 px-4 sm:px-6">
+      <div class="max-w-6xl mx-auto">
+        <div class="animate-on-scroll flex items-end justify-between mb-12">
+          <div>
+            <h2 class="text-3xl font-bold mb-2">Recent Posts</h2>
+            <p class="text-[var(--text-muted)]">Thoughts, tutorials, and deep dives</p>
+          </div>
+          <a href="/blog" class="text-[var(--accent)] text-sm font-medium hover:underline">View all →</a>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {recentPosts.map((post) => (
+            <a href={`/blog/${post.id}`} class="animate-on-scroll card group block">
+              <div class="flex flex-wrap gap-2 mb-3">
+                {post.data.tags.slice(0, 2).map(tag => <span class="tag">{tag}</span>)}
+              </div>
+              <h3 class="font-bold text-lg mb-2 group-hover:text-[var(--accent)] transition-colors leading-snug">{post.data.title}</h3>
+              <p class="text-[var(--text-muted)] text-sm mb-4 leading-relaxed line-clamp-2">{post.data.description}</p>
+              <time class="text-xs text-[var(--text-muted)]">
+                {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+              </time>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="py-20 px-4 sm:px-6">
+    <div class="max-w-2xl mx-auto text-center animate-on-scroll">
+      <div class="card p-12">
+        <h2 class="text-3xl font-bold mb-4">Let's work together</h2>
+        <p class="text-[var(--text-muted)] mb-8">Have a project in mind? I'd love to hear about it.</p>
+        <a href="mailto:hello@monir.dev" class="btn-primary">
+          Get in touch
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

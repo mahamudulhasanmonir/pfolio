@@ -1,0 +1,80 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const docs = await getCollection('docs');
+  return docs.map(doc => ({ params: { id: doc.id }, props: { doc } }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+
+const allDocs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+const currentIndex = allDocs.findIndex(d => d.id === doc.id);
+const prev = allDocs[currentIndex - 1];
+const next = allDocs[currentIndex + 1];
+---
+
+<Layout title={`${doc.data.title} — Docs`} description={doc.data.description}>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16 flex gap-8">
+    <!-- Sidebar -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24">
+        <div class="glass rounded-2xl p-4">
+          <p class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] mb-3 px-2">Documentation</p>
+          <nav class="space-y-1">
+            {allDocs.map(d => (
+              <a
+                href={`/docs/${d.id}`}
+                class={`block px-3 py-2 rounded-lg text-sm transition-colors ${
+                  d.id === doc.id
+                    ? 'bg-indigo-500/10 text-[var(--accent)] font-medium'
+                    : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/5'
+                }`}
+              >
+                {d.data.title}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Content -->
+    <div class="flex-1 min-w-0">
+      <!-- Back (mobile) -->
+      <a href="/docs" class="lg:hidden inline-flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-8">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        All Docs
+      </a>
+
+      <header class="animate-on-scroll mb-10">
+        <h1 class="text-4xl font-extrabold mb-3">{doc.data.title}</h1>
+        <p class="text-[var(--text-muted)] text-lg">{doc.data.description}</p>
+      </header>
+
+      <div class="h-px bg-gradient-to-r from-transparent via-[var(--surface-border)] to-transparent mb-10"></div>
+
+      <div class="prose-custom animate-on-scroll">
+        <Content />
+      </div>
+
+      <!-- Prev / Next -->
+      <div class="mt-16 pt-8 border-t border-[var(--surface-border)] flex justify-between gap-4">
+        {prev ? (
+          <a href={`/docs/${prev.id}`} class="card flex-1 group block max-w-xs">
+            <p class="text-xs text-[var(--text-muted)] mb-1">← Previous</p>
+            <p class="font-semibold group-hover:text-[var(--accent)] transition-colors">{prev.data.title}</p>
+          </a>
+        ) : <div />}
+        {next && (
+          <a href={`/docs/${next.id}`} class="card flex-1 group block max-w-xs text-right">
+            <p class="text-xs text-[var(--text-muted)] mb-1">Next →</p>
+            <p class="font-semibold group-hover:text-[var(--accent)] transition-colors">{next.data.title}</p>
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</Layout>

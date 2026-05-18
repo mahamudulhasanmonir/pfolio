@@ -1,0 +1,83 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const allTags = [...new Set(posts.flatMap(p => p.data.tags))];
+---
+
+<Layout title="Blog — Monir.dev" description="Thoughts, tutorials, and deep dives on web development">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-16">
+    <div class="animate-on-scroll text-center mb-16">
+      <h1 class="text-5xl font-extrabold mb-4">
+        The <span class="gradient-text">Blog</span>
+      </h1>
+      <p class="text-[var(--text-muted)] text-lg">Thoughts, tutorials, and deep dives on web development.</p>
+    </div>
+
+    <!-- Tag filter -->
+    <div class="animate-on-scroll flex flex-wrap gap-2 mb-10" id="tag-filters">
+      <button class="tag-filter active" data-tag="all">All</button>
+      {allTags.map(tag => <button class="tag-filter" data-tag={tag}>{tag}</button>)}
+    </div>
+
+    <!-- Posts list -->
+    <div class="space-y-4" id="posts-list">
+      {posts.map((post) => (
+        <a
+          href={`/blog/${post.id}`}
+          class="animate-on-scroll card group flex flex-col sm:flex-row sm:items-center gap-4 block"
+          data-tags={post.data.tags.join(',')}
+        >
+          <div class="flex-1">
+            <div class="flex flex-wrap gap-2 mb-2">
+              {post.data.tags.slice(0, 3).map(tag => <span class="tag">{tag}</span>)}
+            </div>
+            <h2 class="font-bold text-xl mb-1 group-hover:text-[var(--accent)] transition-colors">{post.data.title}</h2>
+            <p class="text-[var(--text-muted)] text-sm leading-relaxed line-clamp-2">{post.data.description}</p>
+          </div>
+          <time class="text-xs text-[var(--text-muted)] whitespace-nowrap sm:text-right">
+            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+          </time>
+        </a>
+      ))}
+    </div>
+
+    {posts.length === 0 && (
+      <div class="text-center py-20 text-[var(--text-muted)]">No posts yet. Check back soon!</div>
+    )}
+  </div>
+</Layout>
+
+<style>
+  .tag-filter {
+    @apply px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer;
+    border: 1px solid var(--surface-border);
+    color: var(--text-muted);
+    background: transparent;
+  }
+  .tag-filter:hover, .tag-filter.active {
+    background: var(--accent-glow);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('.tag-filter');
+  const posts = document.querySelectorAll<HTMLElement>('[data-tags]');
+
+  filters.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filters.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const tag = btn.dataset.tag!;
+      posts.forEach(post => {
+        const tags = post.dataset.tags!.split(',');
+        post.style.display = (tag === 'all' || tags.includes(tag)) ? '' : 'none';
+      });
+    });
+  });
+</script>

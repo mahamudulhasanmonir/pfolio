@@ -1,0 +1,37 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const docs = (await getCollection('docs')).sort((a, b) => a.data.order - b.data.order);
+---
+
+<Layout title="Docs — Monir.dev" description="Documentation and guides">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-16">
+    <div class="animate-on-scroll text-center mb-16">
+      <h1 class="text-5xl font-extrabold mb-4">
+        <span class="gradient-text">Documentation</span>
+      </h1>
+      <p class="text-[var(--text-muted)] text-lg">Guides, references, and everything you need to get started.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {docs.map((doc) => (
+        <a href={`/docs/${doc.id}`} class="animate-on-scroll card group block">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-indigo-600 flex items-center justify-center text-white text-lg mb-4 shadow-lg shadow-cyan-500/20">
+            📄
+          </div>
+          <h2 class="font-bold text-lg mb-2 group-hover:text-[var(--accent)] transition-colors">{doc.data.title}</h2>
+          <p class="text-[var(--text-muted)] text-sm leading-relaxed">{doc.data.description}</p>
+          <div class="mt-4 flex items-center gap-1 text-[var(--accent)] text-sm font-medium">
+            Read more
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    {docs.length === 0 && (
+      <div class="text-center py-20 text-[var(--text-muted)]">Documentation coming soon!</div>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,50 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map(post => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<Layout title={`${post.data.title} — Monir.dev`} description={post.data.description}>
+  <article class="max-w-3xl mx-auto px-4 sm:px-6 py-16">
+    <!-- Back -->
+    <a href="/blog" class="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] hover:text-[var(--accent)] transition-colors mb-10">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      Back to Blog
+    </a>
+
+    <!-- Header -->
+    <header class="animate-on-scroll mb-12">
+      <div class="flex flex-wrap gap-2 mb-4">
+        {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+      </div>
+      <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight">{post.data.title}</h1>
+      <p class="text-[var(--text-muted)] text-lg mb-6">{post.data.description}</p>
+      <div class="flex items-center gap-3 text-sm text-[var(--text-muted)]">
+        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">M</div>
+        <span>Monir</span>
+        <span>·</span>
+        <time>{post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+      </div>
+    </header>
+
+    <!-- Divider -->
+    <div class="h-px bg-gradient-to-r from-transparent via-[var(--surface-border)] to-transparent mb-12"></div>
+
+    <!-- Content -->
+    <div class="prose-custom animate-on-scroll">
+      <Content />
+    </div>
+
+    <!-- Footer nav -->
+    <div class="mt-16 pt-8 border-t border-[var(--surface-border)]">
+      <a href="/blog" class="btn-ghost">← Back to all posts</a>
+    </div>
+  </article>
+</Layout>
