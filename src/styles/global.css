@@ -72,8 +72,8 @@
      Comment out ONE of the two lines below to switch styles:
      • Rounded square (default) → --nav-radius: 16px
      • Full capsule pill        → --nav-radius: 9999px          */
-  /* :root { --nav-radius: 16px; }*/
-  :root { --nav-radius: 9999px; } 
+   :root { --nav-radius: 16px; }
+  /*:root { --nav-radius: 9999px; } */
 
   /* Floating navbar */
   .nav-pill {

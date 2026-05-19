@@ -24,8 +24,8 @@ const { Content } = await render(post);
       <div class="flex flex-wrap gap-2 mb-4">
         {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
       </div>
-      <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 leading-tight">{post.data.title}</h1>
-      <p class="text-[var(--text-muted)] text-lg mb-6">{post.data.description}</p>
+      <h1 class="text-3xl sm:text-5xl font-extrabold mb-4 leading-tight">{post.data.title}</h1>
+      <p class="text-[var(--text-muted)] text-base sm:text-lg mb-6">{post.data.description}</p>
       <div class="flex items-center gap-3 text-sm text-[var(--text-muted)]">
         <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-xs font-bold">M</div>
         <span>Monir</span>

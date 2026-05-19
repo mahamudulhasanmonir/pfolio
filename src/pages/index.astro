@@ -34,15 +34,15 @@ const skills = [
           Available for work
         </div>
 
-        <h1 class="text-6xl sm:text-6xl font-extrabold mb-6 leading-tight">
+        <h1 class="text-4xl sm:text-6xl font-extrabold mb-6 leading-tight">
           Hi, I'm <span class="gradient-text">Mahamudul Hasan</span>
         </h1>
 
-        <p class="text-xl sm:text-2xl text-[var(--text-muted)] mb-4 font-light">
+        <p class="text-lg sm:text-2xl text-[var(--text-muted)] mb-4 font-light">
           Full Stack Developer & Open Source Enthusiast
         </p>
 
-        <p class="text-base text-[var(--text-muted)] max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p class="text-sm sm:text-base text-[var(--text-muted)] max-w-2xl mx-auto mb-10 leading-relaxed">
           I build fast, accessible, and beautiful web experiences. Passionate about clean code, modern tooling, and sharing knowledge through writing.
         </p>
 
@@ -82,12 +82,12 @@ const skills = [
   {featuredProjects.length > 0 && (
     <section class="py-20 px-4 sm:px-6">
       <div class="max-w-6xl mx-auto">
-        <div class="animate-on-scroll flex items-end justify-between mb-12">
+        <div class="animate-on-scroll flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-12">
           <div>
-            <h2 class="text-3xl font-bold mb-2">Featured Projects</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-2">Featured Projects</h2>
             <p class="text-[var(--text-muted)]">Things I've built recently</p>
           </div>
-          <a href="/projects" class="text-[var(--accent)] text-sm font-medium hover:underline">View all →</a>
+          <a href="/projects" class="text-[var(--accent)] text-sm font-medium hover:underline shrink-0">View all →</a>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {featuredProjects.map((project) => (
@@ -125,12 +125,12 @@ const skills = [
   {recentPosts.length > 0 && (
     <section class="py-20 px-4 sm:px-6">
       <div class="max-w-6xl mx-auto">
-        <div class="animate-on-scroll flex items-end justify-between mb-12">
+        <div class="animate-on-scroll flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-12">
           <div>
-            <h2 class="text-3xl font-bold mb-2">Recent Posts</h2>
+            <h2 class="text-2xl sm:text-3xl font-bold mb-2">Recent Posts</h2>
             <p class="text-[var(--text-muted)]">Thoughts, tutorials, and deep dives</p>
           </div>
-          <a href="/blog" class="text-[var(--accent)] text-sm font-medium hover:underline">View all →</a>
+          <a href="/blog" class="text-[var(--accent)] text-sm font-medium hover:underline shrink-0">View all →</a>
         </div>
         <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {recentPosts.map((post) => (
@@ -153,7 +153,7 @@ const skills = [
   <!-- CTA -->
   <section class="py-20 px-4 sm:px-6">
     <div class="max-w-2xl mx-auto text-center animate-on-scroll">
-      <div class="card p-12">
+      <div class="card p-8 sm:p-12">
         <h2 class="text-3xl font-bold mb-4">Let's work together</h2>
         <p class="text-[var(--text-muted)] mb-8">Have a project in mind? I'd love to hear about it.</p>
         <a href="mailto:hello@monir.dev" class="btn-primary">

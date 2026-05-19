@@ -27,33 +27,35 @@ const navLinks = [
     <title>{title}</title>
   </head>
   <body class="mesh-bg noise min-h-screen">
-    <!-- Floating Pill Navbar -->
+    <!-- Floating Navbar -->
     <header class="fixed top-5 left-0 right-0 z-50 flex justify-center px-4">
       <nav class="nav-pill flex items-center gap-2 px-4 py-3">
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2 group mr-2">
-          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/50 transition-shadow">
+        <a href="/" class="flex items-center gap-2 group mr-1">
+          <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg group-hover:shadow-indigo-500/50 transition-shadow shrink-0">
             M
           </div>
           <span class="font-bold text-base gradient-text hidden sm:block">Monir.dev</span>
         </a>
 
-        <!-- Divider -->
-        <div class="w-px h-5 bg-[var(--surface-border)] mx-1 hidden sm:block"></div>
+        <!-- Divider (desktop only) -->
+        <div class="w-px h-5 bg-[var(--surface-border)] mx-1 hidden md:block"></div>
 
-        <!-- Nav Links -->
-        {navLinks.map(({ href, label }) => (
-          <a
-            href={href}
-            class={`relative px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
-              pathname === href
-                ? 'text-white bg-indigo-500/80'
-                : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/10'
-            }`}
-          >
-            {label}
-          </a>
-        ))}
+        <!-- Nav Links (desktop only) -->
+        <div class="hidden md:flex items-center gap-1">
+          {navLinks.map(({ href, label }) => (
+            <a
+              href={href}
+              class={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${
+                pathname === href
+                  ? 'text-white bg-indigo-500/80'
+                  : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/10'
+              }`}
+            >
+              {label}
+            </a>
+          ))}
+        </div>
 
         <!-- Divider -->
         <div class="w-px h-5 bg-[var(--surface-border)] mx-1"></div>
@@ -62,7 +64,7 @@ const navLinks = [
         <button
           id="theme-toggle"
           aria-label="Toggle theme"
-          class="w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-white/10 transition-all"
+          class="w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-muted)] hover:text-[var(--accent)] hover:bg-white/10 transition-all shrink-0"
         >
           <svg id="icon-sun" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
@@ -72,24 +74,27 @@ const navLinks = [
           </svg>
         </button>
 
-        <!-- Mobile menu button -->
+        <!-- Hamburger (mobile only) -->
         <button
           id="mobile-menu-btn"
           aria-label="Toggle menu"
-          class="sm:hidden w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-muted)] hover:bg-white/10 transition-all"
+          class="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-[var(--text-muted)] hover:bg-white/10 transition-all shrink-0"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg id="hamburger-icon" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="close-icon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
           </svg>
         </button>
       </nav>
 
-      <!-- Mobile dropdown -->
-      <div id="mobile-menu" class="hidden absolute top-full mt-2 left-1/2 -translate-x-1/2 nav-pill px-4 py-3 flex-col gap-1 min-w-[180px]">
+      <!-- Mobile dropdown — full width of header, centered -->
+      <div id="mobile-menu" class="hidden absolute top-full mt-2 w-[calc(100%-2rem)] max-w-xs nav-pill px-3 py-3 flex-col gap-1">
         {navLinks.map(({ href, label }) => (
           <a
             href={href}
-            class={`block px-4 py-2 rounded-xl text-sm font-medium transition-colors text-center ${
+            class={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${
               pathname === href
                 ? 'text-white bg-indigo-500/80'
                 : 'text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-white/10'
@@ -153,10 +158,14 @@ const navLinks = [
       // Mobile menu
       document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
         const menu = document.getElementById('mobile-menu');
+        const hamburger = document.getElementById('hamburger-icon');
+        const close = document.getElementById('close-icon');
         if (menu) {
           const isHidden = menu.classList.contains('hidden');
           menu.classList.toggle('hidden', !isHidden);
           menu.classList.toggle('flex', isHidden);
+          hamburger?.classList.toggle('hidden', isHidden);
+          close?.classList.toggle('hidden', !isHidden);
         }
       });
 
