@@ -67,14 +67,22 @@
     border-bottom: 1px solid var(--surface-border);
   }
 
-  /* Floating pill navbar */
+  /* Floating navbar shape toggle
+     ─────────────────────────────
+     Comment out ONE of the two lines below to switch styles:
+     • Rounded square (default) → --nav-radius: 16px
+     • Full capsule pill        → --nav-radius: 9999px          */
+  /* :root { --nav-radius: 16px; }*/
+  :root { --nav-radius: 9999px; } 
+
+  /* Floating navbar */
   .nav-pill {
     background: var(--nav-bg);
     backdrop-filter: blur(24px) saturate(200%);
     -webkit-backdrop-filter: blur(24px) saturate(200%);
     border: 1px solid var(--surface-border);
-    border-radius: 9999px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px var(--surface-border);
+    border-radius: var(--nav-radius);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15), 0 0 0 1px var(--surface-border);
   }
 
   /* Gradient text */
