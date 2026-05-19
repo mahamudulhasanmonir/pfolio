@@ -50,8 +50,8 @@ const next = allDocs[currentIndex + 1];
       </a>
 
       <header class="animate-on-scroll mb-10">
-        <h1 class="text-4xl font-extrabold mb-3">{doc.data.title}</h1>
-        <p class="text-[var(--text-muted)] text-lg">{doc.data.description}</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold mb-3">{doc.data.title}</h1>
+        <p class="text-[var(--text-muted)] text-base sm:text-lg">{doc.data.description}</p>
       </header>
 
       <div class="h-px bg-gradient-to-r from-transparent via-[var(--surface-border)] to-transparent mb-10"></div>
@@ -61,15 +61,15 @@ const next = allDocs[currentIndex + 1];
       </div>
 
       <!-- Prev / Next -->
-      <div class="mt-16 pt-8 border-t border-[var(--surface-border)] flex justify-between gap-4">
+      <div class="mt-16 pt-8 border-t border-[var(--surface-border)] flex flex-col sm:flex-row justify-between gap-4">
         {prev ? (
-          <a href={`/docs/${prev.id}`} class="card flex-1 group block max-w-xs">
+          <a href={`/docs/${prev.id}`} class="card group block sm:max-w-xs">
             <p class="text-xs text-[var(--text-muted)] mb-1">← Previous</p>
             <p class="font-semibold group-hover:text-[var(--accent)] transition-colors">{prev.data.title}</p>
           </a>
         ) : <div />}
         {next && (
-          <a href={`/docs/${next.id}`} class="card flex-1 group block max-w-xs text-right">
+          <a href={`/docs/${next.id}`} class="card group block sm:max-w-xs sm:text-right">
             <p class="text-xs text-[var(--text-muted)] mb-1">Next →</p>
             <p class="font-semibold group-hover:text-[var(--accent)] transition-colors">{next.data.title}</p>
           </a>
