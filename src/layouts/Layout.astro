@@ -25,6 +25,13 @@ const navLinks = [
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title}</title>
+    <script is:inline>
+      const t = localStorage.getItem('theme');
+      const dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (dark) document.documentElement.classList.add('dark');
+      // Inject a style tag to hide the wrong icon before DOM is ready
+      document.write('<style id="_ti">' + (dark ? '#icon-moon{display:none}' : '#icon-sun{display:none}') + '</style>');
+    </script>
   </head>
   <body class="mesh-bg noise min-h-screen">
     <!-- Floating Navbar -->
@@ -134,11 +141,10 @@ const navLinks = [
     <script>
       // Theme management
       const html = document.documentElement;
-      const stored = localStorage.getItem('theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const isDark = stored ? stored === 'dark' : prefersDark;
+      const isDark = html.classList.contains('dark');
 
-      if (isDark) html.classList.add('dark');
+      // Remove the temporary style tag now that real classes are applied
+      document.getElementById('_ti')?.remove();
 
       function updateIcons(dark: boolean) {
         const sun = document.getElementById('icon-sun');
@@ -151,8 +157,6 @@ const navLinks = [
           moon?.classList.remove('hidden');
         }
       }
-
-      updateIcons(isDark);
 
       document.getElementById('theme-toggle')?.addEventListener('click', () => {
         const dark = html.classList.toggle('dark');

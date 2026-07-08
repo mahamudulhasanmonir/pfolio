@@ -10,6 +10,7 @@
     --bg-secondary: #f1f5f9;
     --surface: rgba(255, 255, 255, 0.7);
     --surface-border: rgba(255, 255, 255, 0.5);
+    --surface-border-new: rgba(41, 41, 41, 0.5);
     --text: #0f172a;
     --text-muted: #64748b;
     --accent: #6366f1;
@@ -179,7 +180,7 @@
   }
   .prose-custom pre {
     background: var(--bg-secondary) !important;
-    border: 1px solid var(--surface-border);
+    border: 1px solid var(--surface-border-new);
     border-radius: 12px;
     padding: 1.25em;
     overflow-x: auto;
